@@ -47,8 +47,8 @@ def get_car_workplace_keyboard():
 @dp.message(CommandStart())
 async def cmd_start(message: Message, state: FSMContext):
     await message.answer(
-        "Заполни анкету, чтобы мы могли предложить актуальные вакансии\n\n"
-        "☝🏻 Напиши свой город\n✌🏻 Укажи возраст\n\nПример: Москва, 22",
+        "Заполните анкету, чтобы мы могли предложить актуальные вакансии\n\n"
+        "☝🏻 Напишите свой город\n✌🏻 Укажите возраст\n\nПример: Москва, 22",
         reply_markup=ReplyKeyboardRemove()
     )
     await state.set_state(Registration.waiting_for_city)
@@ -57,7 +57,7 @@ async def cmd_start(message: Message, state: FSMContext):
 async def process_city_and_age(message: Message, state: FSMContext):
     parts = message.text.split(',')
     if len(parts) < 2:
-        await message.answer("❌ Пожалуйста, укажи город и возраст через запятую\nПример: Москва, 22")
+        await message.answer("❌ Пожалуйста, укажите город и возраст через запятую\nПример: Москва, 22")
         return
     city = parts[0].strip()
     age = parts[1].strip()
@@ -71,13 +71,13 @@ async def process_city_and_age(message: Message, state: FSMContext):
 @dp.message(Registration.choosing_courier_type, F.text == "Пеший курьер")
 async def choose_pedestrian(message: Message, state: FSMContext):
     await state.update_data(courier_type="Пеший курьер")
-    await message.answer("Выбери место работы:", reply_markup=get_pedestrian_workplace_keyboard())
+    await message.answer("Выберите место работы:", reply_markup=get_pedestrian_workplace_keyboard())
     await state.set_state(Registration.choosing_workplace)
 
 @dp.message(Registration.choosing_courier_type, F.text == "Курьер на авто")
 async def choose_car_courier(message: Message, state: FSMContext):
     await state.update_data(courier_type="Курьер на авто")
-    await message.answer("Выбери место работы:", reply_markup=get_car_workplace_keyboard())
+    await message.answer("Выберите место работы:", reply_markup=get_car_workplace_keyboard())
     await state.set_state(Registration.choosing_workplace)
 
 @dp.message(Registration.choosing_workplace)
@@ -85,7 +85,7 @@ async def process_workplace(message: Message, state: FSMContext):
     workplace = message.text
     valid_workplaces = ["Яндекс еда", "Яндекс доставка", "Вкусвилл"]
     if workplace not in valid_workplaces:
-        await message.answer("❌ Пожалуйста, выбери место работы из кнопок")
+        await message.answer("❌ Пожалуйста, выберите место работы из кнопок")
         return
     
     await state.update_data(workplace=workplace)
@@ -103,9 +103,9 @@ async def process_workplace(message: Message, state: FSMContext):
         logging.error(f"Ошибка отправки админу: {e}")
     
     await message.answer(
-        f"✅ Выбрано: <b>{workplace}</b>\n\n📌 <b>Инструкция:</b>\n"
-        f"1. Ожидай звонка в течение 24 часов\n2. Подготовь паспорт\n3. Приходи на собеседование\n\n"
-        f"Вопросы? Пиши @Evgeniybots",
+        f"✅ Выбрано: <b>{workplace}</b>\n\n📌 
+        f"Ожидайте звонок в ближайшее время\n\n"
+        f"✍🏻 Если есть вопросы или хочется ускорить процесс - пишите нашему менеджеру @easyworkmanager",
         reply_markup=ReplyKeyboardRemove(),
         parse_mode="HTML"
     )
@@ -144,4 +144,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
