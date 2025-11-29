@@ -103,7 +103,7 @@ async def process_workplace(message: Message, state: FSMContext):
         logging.error(f"Ошибка отправки админу: {e}")
     
     await message.answer(
-        f"✅ Выбрано: <b>{workplace}</b>\n\n📌 
+        f"✅ Выбрано: <b>{workplace}</b>\n\n" 
         f"Ожидайте звонок в ближайшее время\n\n"
         f"✍🏻 Если есть вопросы или хочется ускорить процесс - пишите нашему менеджеру @easyworkmanager",
         reply_markup=ReplyKeyboardRemove(),
@@ -144,5 +144,6 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
 
