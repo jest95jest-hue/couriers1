@@ -112,7 +112,7 @@ async def process_workplace(message: Message, state: FSMContext):
     await state.clear()
 
 
-# --- ВЕБ-СЕРВЕР ДЛЯ ПИНГА (ЧТОБЫ RENDER НЕ РУГАЛСЯ) ---
+# --- ВЕБ-СЕРВЕР ДЛЯ ПИНГА ---
 async def handle_ping(request):
     return web.Response(text="I am alive!")
 
@@ -121,10 +121,14 @@ async def start_web_server():
     app.router.add_get('/', handle_ping)
     runner = web.AppRunner(app)
     await runner.setup()
-    # Render сам прокидывает порт 10000 через переменную
-    port = int(os.environ.get("PORT", 10000))
+    
+    # ВАЖНО: Берем порт из переменной окружения PORT (её дает Render)
+    # Если переменной нет - используем 8080
+    port = int(os.environ.get("PORT", 8080))
+    
     site = web.TCPSite(runner, '0.0.0.0', port)
     await site.start()
+    logging.info(f"🚀 Веб-сервер запущен на порту {port}")
 
 
 # --- ГЛАВНАЯ ФУНКЦИЯ ЗАПУСКА ---
