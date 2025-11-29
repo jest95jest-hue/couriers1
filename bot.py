@@ -48,7 +48,7 @@ def get_car_workplace_keyboard():
 async def cmd_start(message: Message, state: FSMContext):
     await message.answer(
         "Заполни анкету, чтобы мы могли предложить актуальные вакансии\n\n"
-        "👉 Напиши свой город ⬇️\n👉 Укажи возраст\n\nПример: Москва, 22",
+        "☝🏻 Напиши свой город\n✌🏻 Укажи возраст\n\nПример: Москва, 22",
         reply_markup=ReplyKeyboardRemove()
     )
     await state.set_state(Registration.waiting_for_city)
@@ -144,3 +144,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
